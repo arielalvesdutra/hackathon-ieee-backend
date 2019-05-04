@@ -14,3 +14,12 @@ CREATE TABLE IF NOT EXISTS grandezas_eletricas (
     energia_acumulada FLOAT NOT NULL,
     PRIMARY KEY (id)
 )engine=InnoDb;
+
+
+CREATE TABLE IF NOT EXISTS faltas_de_energia (
+    id INT NOT NULL AUTO_INCREMENT,
+    sn VARCHAR(30) NOT NULL,
+    inicio VARCHAR(30) NOT NULL,
+    final VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
+)engine=InnoDb;

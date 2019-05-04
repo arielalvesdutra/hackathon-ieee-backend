@@ -21,17 +21,16 @@ class FaltaDeEnergiaRepository extends AbstractRepository
 
     public function findAll()
     {
-        $grandeza = $this->connection->createQueryBuilder()
+        $faltasDeEnergia = $this->connection->createQueryBuilder()
             ->select('*')
-            ->from($this->getTableName(), 'ge')
+            ->from($this->getTableName(), 'fde')
             ->execute()
             ->fetchAll();
 
-        if (empty($grandeza)) {
-            throw new NotFoundException('Nenhum registro de categoria de atendimento encontrado');
+        if (empty($faltasDeEnergia)) {
+            throw new NotFoundException('Nenhum registro de falta de energia encontrado');
         }
  
-        return $grandeza;
-
+        return $faltasDeEnergia;
     }
 }

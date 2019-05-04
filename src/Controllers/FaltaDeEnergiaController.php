@@ -28,4 +28,18 @@ class FaltaDeEnergiaController extends AbstractController
             return $response->withJson($exception->getMessage(), $exception->getCode());
         }
     }
+
+    public function retrieveAll(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        
+        try {
+
+            $faltasDeEnergia = $this->service->retrieveAllFaltasDeEnergia();
+
+            return $response->withJson($faltasDeEnergia, 200);
+
+        } catch(Exception $exception) {
+            return $response->withJson($exception->getMessage(), $exception->getCode());
+        }
+    }
 }

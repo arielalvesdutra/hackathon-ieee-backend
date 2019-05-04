@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 use Exception;
 use InvalidArgumentException;
 
-class FaltaDeEnegiaService
+class FaltaDeEnergiaService
 {
     protected $connection;
 
@@ -25,7 +25,9 @@ class FaltaDeEnegiaService
     public function createFaltaDeEnergia(array $parameters)
     {
         if (
-            empty($parameters['sn'])
+            empty($parameters['sn']) ||
+            empty($parameters['inicio']) ||
+            empty($parameters['final'])
         ) {
             throw new Exception('Parâmetros necessários não preenchidos', 400);
         }
@@ -35,10 +37,19 @@ class FaltaDeEnegiaService
         $this->connection->insert(
             $this->repository->getTableName(),
             [
-
+                'sn' => $parameters['sn'],
+                'inicio' => $parameters['inicio'],
+                'final' => $parameters['final']
             ]
         );
 
         $this->connection->commit();
+    }
+
+    public function retrieveAllFaltasDeEnergia()
+    {
+        $faltasDeEnergia = $this->repository->findAll();
+
+        return $faltasDeEnergia;
     }
 }

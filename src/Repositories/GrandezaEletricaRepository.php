@@ -28,7 +28,7 @@ class GrandezaEletricaRepository extends AbstractRepository
             ->fetchAll();
 
         if (empty($grandezasEletricas)) {
-            throw new NotFoundException('Nenhum registro de categoria de atendimento encontrado');
+            throw new NotFoundException('Nenhum registro de grandeza elétrica encontrado');
         }
  
         return $grandezasEletricas;

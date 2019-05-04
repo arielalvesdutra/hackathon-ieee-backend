@@ -2,6 +2,7 @@
 require '../bootstrap.php';
 
 use App\Controllers\GrandezaEletricaController;
+use App\Controllers\FaltaDeEnergiaController;
 use Slim\App;
 use Slim\Container;
 
@@ -47,6 +48,19 @@ $container[GrandezaEletricaController::class] = function ($container)
 };
 
 /**
+ * Injeta FaltaDeEnergiaController
+ */
+$container[FaltaDeEnergiaController::class] = function ($container)
+{
+    return new \App\Controllers\FaltaDeEnergiaController(
+        new \App\Services\FaltaDeEnergiaService(
+            $container['Connection'],
+            new \App\Repositories\FaltaDeEnergiaRepository($container['Connection'])
+        )
+    );
+};
+
+/**
  * Define configuração de middleware e de debug
  */
 $container->get('settings')
@@ -66,10 +80,18 @@ $slim->get('/', function() {
     return "Primeira rota.";
 });
 
+/**
+ * Grandezas Elétricas
+ */
 $slim->get('/grandezas-eletricas', GrandezaEletricaController::class . ':retrieveAll');
 $slim->post('/grandezas-eletricas', GrandezaEletricaController::class . ':create');
 
-// debugd('chegou aqui');
+/**
+ * Falta de Energia
+ */
+
+$slim->get('/faltas-de-energia', FaltaDeEnergiaController::class . ':retrieveAll' );
+$slim->post('/faltas-de-energia', FaltaDeEnergiaController::class . ':create' );
 
 $slim->run();
 
