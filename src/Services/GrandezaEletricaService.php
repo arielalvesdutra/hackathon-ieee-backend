@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Exceptions\NotFoundException;
-use App\Factories\Entities\GrandezaEletricaEntityFactory;
 use App\Formatters\Formatter;
 use App\Repositories\GrandezaEletricaRepository;
 use Doctrine\DBAL\Connection;
@@ -25,5 +24,42 @@ class GrandezaEletricaService
 
     public function createGrandezaEletrica(array $parameters)
     {
+        if (
+            empty($parameters['sn']) ||
+            empty($parameters['tensao']) ||
+            empty($parameters['corrente']) ||
+            empty($parameters['potenciaAparente']) ||
+            empty($parameters['potenciaAtiva']) ||
+            empty($parameters['potenciaReativa']) ||
+            empty($parameters['fatorPotencia']) ||
+            empty($parameters['energiaAcumulada'])
+        ) {
+            throw new Exception('Parâmetros necessários não preenchidos', 400);
+        }
+
+        $this->connection->beginTransaction();
+
+        $this->connection->insert(
+            $this->repository->getTableName(),
+            [
+                'sn' => $parameters['sn'],
+                'tensao' => $parameters['tensao'],
+                'corrente' => $parameters['corrente'],
+                'potencia_aparente' => $parameters['potenciaAparente'],
+                'potencia_ativa' => $parameters['potenciaAtiva'],
+                'potencia_reativa' => $parameters['potenciaReativa'],
+                'fator_potencia' => $parameters['fatorPotencia'],
+                'energia_acumulada' => $parameters['energiaAcumulada'],
+            ]
+        );
+
+        $this->connection->commit();
+    }
+
+    public function retrieveAllGrandezasEletricas()
+    {
+        $grandezasEletricas =  $this->repository->findAll();
+
+        return $grandezasEletricas;
     }
 }

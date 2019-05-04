@@ -8,3 +8,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_ROOT_HOST: '%'
+  backend:
+    build: .
+    ports:
+    - 8000:80
+    volumes:
+    - ../:/var/www/

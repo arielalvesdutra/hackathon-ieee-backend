@@ -4,10 +4,15 @@ require '../bootstrap.php';
 use App\Controllers\GrandezaEletricaController;
 use Slim\App;
 use Slim\Container;
+
+// phpinfo();
+// die();
+
 /**
  * Container
  */
 $container = new Container();
+
 /**
  * Injeta a conexão com o banco de dados.
  *
@@ -31,7 +36,7 @@ $container['Connection'] = function () {
  * @param $container
  * @return GrandezaEletricaController
  */
-$container[UserController::class] = function ($container)
+$container[GrandezaEletricaController::class] = function ($container)
 {
     return new \App\Controllers\GrandezaEletricaController(
         new \App\Services\GrandezaEletricaService(
@@ -60,6 +65,11 @@ $slim = new App($container);
 $slim->get('/', function() {
     return "Primeira rota.";
 });
+
+$slim->get('/grandezas-eletricas', GrandezaEletricaController::class . ':retrieveAll');
+$slim->post('/grandezas-eletricas', GrandezaEletricaController::class . ':create');
+
+// debugd('chegou aqui');
 
 $slim->run();
 

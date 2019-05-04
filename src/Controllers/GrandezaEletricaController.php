@@ -17,9 +17,26 @@ class GrandezaEletricaController extends AbstractController
     public function create(ServerRequestInterface $request, ResponseInterface $response)
     {
         try {
+            $parameters = $request->getParsedBody();
 
-        } catch(Exception $exception) {
+            $this->service->createGrandezaEletrica($parameters);
 
+            return $response->withStatus(201);
+        } catch (Exception $exception) {
+            return $response->withJson($exception->getMessage(), $exception->getCode()());
+        }
+    }
+
+    public function retrieveAll(ServerRequestInterface $request, ResponseInterface $response)
+    { {
+            try {
+
+                $grandezasEletricas = $this->service->retrieveAllGrandezasEletricas();
+
+                return $response->withJson($grandezasEletricas, 200);
+            } catch (Exception $exception) {
+                return $response->withJson($exception->getMessage(), $exception->getCode()());
+            }
         }
     }
 }
