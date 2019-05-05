@@ -1,13 +1,12 @@
 <?php
+
 require '../bootstrap.php';
 
 use App\Controllers\GrandezaEletricaController;
 use App\Controllers\FaltaDeEnergiaController;
+use App\Middlewares\AccessControlAllow;
 use Slim\App;
 use Slim\Container;
-
-// phpinfo();
-// die();
 
 /**
  * Container
@@ -75,6 +74,11 @@ $container->get('settings')
  */
 $slim = new App($container);
 
+/**
+ * Adiciona Middleware para corrigir o problema de
+ * restrição de CORS
+ */
+$slim->add(new AccessControlAllow());
 
 $slim->get('/', function() {
     return "Primeira rota.";
@@ -84,6 +88,8 @@ $slim->get('/', function() {
  * Grandezas Elétricas
  */
 $slim->get('/grandezas-eletricas', GrandezaEletricaController::class . ':retrieveAll');
+$slim->get('/grandezas-eletricas/pesquisa/{filtros}', 
+        GrandezaEletricaController::class . ':search');
 $slim->post('/grandezas-eletricas', GrandezaEletricaController::class . ':create');
 
 /**

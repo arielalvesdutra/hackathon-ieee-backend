@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS grandezas_eletricas (
     potencia_reativa FLOAT NOT NULL,
     fator_potencia FLOAT NOT NULL,
     energia_acumulada FLOAT NOT NULL,
+    data_criacao VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
 )engine=InnoDb;
 

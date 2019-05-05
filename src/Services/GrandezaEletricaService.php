@@ -32,7 +32,8 @@ class GrandezaEletricaService
             empty($parameters['potenciaAtiva']) ||
             empty($parameters['potenciaReativa']) ||
             empty($parameters['fatorPotencia']) ||
-            empty($parameters['energiaAcumulada'])
+            empty($parameters['energiaAcumulada']) ||
+            empty($parameters['dataCriacao'])
         ) {
             throw new Exception('Parâmetros necessários não preenchidos', 400);
         }
@@ -50,6 +51,7 @@ class GrandezaEletricaService
                 'potencia_reativa' => $parameters['potenciaReativa'],
                 'fator_potencia' => $parameters['fatorPotencia'],
                 'energia_acumulada' => $parameters['energiaAcumulada'],
+                'data_criacao' => $parameters['dataCriacao']
             ]
         );
 
@@ -59,6 +61,17 @@ class GrandezaEletricaService
     public function retrieveAllGrandezasEletricas()
     {
         $grandezasEletricas =  $this->repository->findAll();
+
+        return $grandezasEletricas;
+    }
+
+    public function searchGrandezasEletricas(array $parameters)
+    {
+        // return $parameters;
+        $grandezasEletricas = $this->repository->findBetweenInitAndFinalDate(
+            $parameters['initDate'],
+            $parameters['finalDate']
+        );
 
         return $grandezasEletricas;
     }

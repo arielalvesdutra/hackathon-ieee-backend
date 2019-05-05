@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Services\GrandezaEletricaService;
 use Exception;
+use App\Exceptions\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -28,15 +29,28 @@ class GrandezaEletricaController extends AbstractController
     }
 
     public function retrieveAll(ServerRequestInterface $request, ResponseInterface $response)
-    { {
-            try {
+    {
+        try {
 
-                $grandezasEletricas = $this->service->retrieveAllGrandezasEletricas();
+            $grandezasEletricas = $this->service->retrieveAllGrandezasEletricas();
 
-                return $response->withJson($grandezasEletricas, 200);
-            } catch (Exception $exception) {
-                return $response->withJson($exception->getMessage(), $exception->getCode()());
-            }
+            return $response->withJson($grandezasEletricas, 200);
+        } catch (Exception $exception) {
+            return $response->withJson($exception->getMessage(), $exception->getCode()());
+        }
+    }
+
+    public function search(ServerRequestInterface $request, ResponseInterface $response)
+    { 
+        try {
+
+            $parameters = $request->getQueryParams();
+            
+            $grandezasEletricas = $this->service->searchGrandezasEletricas($parameters);
+
+            return $response->withJson($grandezasEletricas, 200);
+        } catch (Exception $exception) {
+            return $response->withJson($exception->getMessage(), $exception->getCode());
         }
     }
 }
